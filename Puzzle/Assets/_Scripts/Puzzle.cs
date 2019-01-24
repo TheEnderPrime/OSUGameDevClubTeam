@@ -57,11 +57,11 @@ public class Puzzle : MonoBehaviour {
 		{
 			for(int j = 0; j < 8; j++)
 			{
-				Sprite newSprite = Sprite.Create(source, new Rect(i*128, j*128, 128, 128), new Vector2(0.5f, 0.5f));
+				Sprite newSprite = Sprite.Create(source, new Rect(i*256, j*128, source.width/8, source.height/8), new Vector2(0.5f, 0.5f));
 				GameObject n = new GameObject();
 				SpriteRenderer sr = n.AddComponent<SpriteRenderer>();
 				sr.sprite = newSprite;
-				n.transform.position = new Vector3(i*2, j*2 , 0);
+				n.transform.position = new Vector3(i*3, j*2 , 0);
 				n.transform.parent = spritesRoot.transform;
 			}
 		}
