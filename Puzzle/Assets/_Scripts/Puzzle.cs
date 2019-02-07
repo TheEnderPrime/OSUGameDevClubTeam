@@ -10,6 +10,7 @@ public class Puzzle : MonoBehaviour {
 	[SerializeField] public Texture2D sourceImage; // origianl image
 	public GameObject spritesRoot; // what object the split images are going to be connected to
 	[SerializeField] int xRangeMin = 0, xRangeMax = 25, yRangeMin = 0, yRangeMax = 12;
+	List<string> fileNames;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +21,6 @@ public class Puzzle : MonoBehaviour {
 
 		//get name of puzzle from user, set puzzleName
 
-
 		//get image from file
 		sourceImage = Resources.Load<Texture2D>("Images/OriginalImages/" + puzzleName);
 
@@ -29,6 +29,7 @@ public class Puzzle : MonoBehaviour {
 		SplitSprite(sourceImage);	 
 
 		RandomizePosition (spriteList);
+		RandomChangePuzzle ();
 
 
 		//foreach (var t in spriteList) {
@@ -67,7 +68,7 @@ public class Puzzle : MonoBehaviour {
 				SpriteRenderer sr = n.AddComponent<SpriteRenderer> ();
 				//var script = n.AddComponent<MovePiece>();
 				sr.sprite = newSprite;
-				n.transform.position = new Vector3(i			*3, j*2 , 0);
+				n.transform.position = new Vector3(i*3, j*2 , 0);
 				n.transform.parent = spritesRoot.transform;
 				n.name = "piece" + k; // names pieces
 				k++;
@@ -89,8 +90,30 @@ public class Puzzle : MonoBehaviour {
 			pos = new Vector3 (x, y, z);
 			gO.transform.position = pos;
 		}
-
 	}
 
+	public void UIChangePuzzle(string name)
+	{
+		puzzleName = name;
+	}
 
+	public void RandomChangePuzzle() //NEEDS TLC , DOESN'T WORK
+	{
+		Object[] fileData;
+		var filePath = "Images/OriginalImages";
+		fileData = Resources.LoadAll (filePath);
+		foreach (var n in fileData) 
+		{
+			//fileNames.Add (n.name);
+			Debug.Log (n.name);
+		}
+
+		//DirectoryInfo dir = new DirectoryInfo (filePath);
+		//FileInfo[] info = dir.GetFiles("*.*");
+		//foreach (FileInfo f in info) 
+		//{
+
+		//}
+
+	}
 }
