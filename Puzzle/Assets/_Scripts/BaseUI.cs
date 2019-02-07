@@ -5,25 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class BaseUI : MonoBehaviour {
     protected GameObject canvas_main;
-    protected bool is_pause=false;
+    protected Animator animator_canvas;
+    protected bool is_pause = false;
 
     // Use this for initialization
     void Start () {
         canvas_main = GameObject.Find("Canvas");
+        animator_canvas = canvas_main.GetComponent<Animator>();
+        animator_canvas.speed = 0.0f;
     }
 	
     // Update is called once per frame
 	void Update () {
         OnPressEsc();
-        if (!is_pause)
-        {
+        if (!is_pause) {
             // do movement
         }
     }
 
-    //Click Events
-    public void OnClickSceneTrans(string SceneName) {
+    //Animator
+    public void SceneTrans(string SceneName) {
         SceneManager.LoadScene(SceneName);
+    }
+
+    //Click Events
+    public void OnClickSceneTrans() {
+        animator_canvas.speed = 1.0f;
     }
 
     public void OnClickPopup(string CanvasName) {
@@ -76,5 +83,4 @@ public class BaseUI : MonoBehaviour {
             }
         }
     }
-
 }
