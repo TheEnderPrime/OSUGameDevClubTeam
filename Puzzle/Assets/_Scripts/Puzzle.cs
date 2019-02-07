@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Puzzle : MonoBehaviour {
 
-	private Object[] spriteList;
+	public List<GameObject> spriteList;
 	[SerializeField] string puzzleName; // name of the puzzle
-	[SerializeField] public Texture2D source; // origianl image
+	[SerializeField] public Texture2D sourceImage; // origianl image
 	public GameObject spritesRoot; // what object the split images are going to be connected to
+	[SerializeField] int xRangeMin = 0, xRangeMax = 25, yRangeMin = 0, yRangeMax = 12;
 
 	// Use this for initialization
 	void Start () {
@@ -21,14 +22,18 @@ public class Puzzle : MonoBehaviour {
 
 
 		//get image from file
-		source = Resources.Load<Texture2D>("Images/OriginalImages/" + puzzleName);
+		sourceImage = Resources.Load<Texture2D>("Images/OriginalImages/" + puzzleName);
 
 		//split sprite, needs to be change size dynamically, eventually based on difficulty
-		SplitSprite();	 
-
 		//get array from image
-		//GetArrayFromImage(puzzleName);
-		//sprite = gameObject.GetComponent<Sprite> ();
+		SplitSprite(sourceImage);	 
+
+		RandomizePosition (spriteList);
+
+
+		//foreach (var t in spriteList) {
+		//	Debug.Log (t.name);
+		//}
 
 	}
 
@@ -51,30 +56,41 @@ public class Puzzle : MonoBehaviour {
 		return tex;
 	}
 
-	public void SplitSprite()
+	public void SplitSprite(Texture2D source)
 	{
+		int k = 0;
 		for(int i = 0; i < 8; i++)
 		{
-			for(int j = 0; j < 8; j++)
-			{
-				Sprite newSprite = Sprite.Create(source, new Rect(i*256, j*128, source.width/8, source.height/8), new Vector2(0.5f, 0.5f));
-				GameObject n = new GameObject();
-				SpriteRenderer sr = n.AddComponent<SpriteRenderer>();
+			for (int j = 0; j < 8; j++) {
+				Sprite newSprite = Sprite.Create (source, new Rect (i * 256, j * 128, source.width / 8, source.height / 8), new Vector2 (0.5f, 0.5f));
+				GameObject n = new GameObject ();
+				SpriteRenderer sr = n.AddComponent<SpriteRenderer> ();
+				//var script = n.AddComponent<MovePiece>();
 				sr.sprite = newSprite;
-				n.transform.position = new Vector3(i*3, j*2 , 0);
+				n.transform.position = new Vector3(i			*3, j*2 , 0);
 				n.transform.parent = spritesRoot.transform;
+				n.name = "piece" + k; // names pieces
+				k++;
+				spriteList.Add(n); // adds puzzle piece to list
 			}
 		}
 	}
 
-	Object[] GetArrayFromImage (string puzzlename)
+	public void RandomizePosition(List<GameObject> pieces)
 	{
-		spriteList = Resources.LoadAll ("Images/" + puzzlename, typeof(Sprite));
-		//Debug.Log(spriteList.Length);
-		foreach (var t in spriteList) {
-			Debug.Log (t.name);
+		float x, y, z; 
+		Vector3 pos;
+
+		foreach (GameObject gO in pieces) 
+		{
+			x = Random.Range (xRangeMin, xRangeMax);
+			y = Random.Range (yRangeMin, yRangeMax);
+			z = 30;
+			pos = new Vector3 (x, y, z);
+			gO.transform.position = pos;
 		}
 
-		return spriteList;
 	}
+
+
 }
