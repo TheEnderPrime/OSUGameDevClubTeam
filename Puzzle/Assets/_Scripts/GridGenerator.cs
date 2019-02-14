@@ -5,14 +5,17 @@ using UnityEngine;
 public class GridGenerator : MonoBehaviour {
 
 	public GameObject tileCollider;
+	public int rows;
+	public int cols;
 
 	// Use this for initialization
 	void Start () {
-		for(int i = 0; i < 8; i++) {
-			for(int k = 0; k < 8; k++)
+		
+		for(int i = 0; i < cols; i++) {
+			for(int k = 0; k < rows; k++)
 			{
 				GameObject clone = Instantiate(tileCollider);
-				clone.transform.position.Set(i, k, 0);
+				clone.transform.position = new Vector3 (i, k, 0.0f);
 			}
 		}
 	}
