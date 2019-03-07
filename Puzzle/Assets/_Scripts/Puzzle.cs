@@ -10,6 +10,7 @@ public class Puzzle : MonoBehaviour {
 	[SerializeField] public Texture2D sourceImage; // origianl image
 	public GameObject spritesRoot; // what object the split images are going to be connected to
 	[SerializeField] int xRangeMin = 0, xRangeMax = 25, yRangeMin = 0, yRangeMax = 12;
+	[SerializeField] float colliderSizeX = 2.5f, colliderSizeY = 1.7f;
 	List<string> fileNames;
 
 	// Use this for initialization
@@ -28,8 +29,8 @@ public class Puzzle : MonoBehaviour {
 		//get array from image
 		SplitSprite(sourceImage);	 
 
-		RandomizePosition (spriteList);
-		RandomChangePuzzle ();
+		//RandomizePosition (spriteList);
+		//RandomChangePuzzle ();
 
 
 		//foreach (var t in spriteList) {
@@ -66,11 +67,14 @@ public class Puzzle : MonoBehaviour {
 				Sprite newSprite = Sprite.Create (source, new Rect (i * 256, j * 128, source.width / 8, source.height / 8), new Vector2 (0.5f, 0.5f));
 				GameObject n = new GameObject ();
 				SpriteRenderer sr = n.AddComponent<SpriteRenderer> ();
-				//var script = n.AddComponent<MovePiece>();
+				BoxCollider2D bc = n.AddComponent<BoxCollider2D> ();
+				bc.size=new Vector2(colliderSizeX, colliderSizeY);
+				var script = n.AddComponent<ClickAndDrag>();
 				sr.sprite = newSprite;
 				n.transform.position = new Vector3(i*3, j*2 , 0);
 				n.transform.parent = spritesRoot.transform;
 				n.name = "piece" + k; // names pieces
+				n.tag = "PuzzlePiece";
 				k++;
 				spriteList.Add(n); // adds puzzle piece to list
 			}
@@ -86,7 +90,7 @@ public class Puzzle : MonoBehaviour {
 		{
 			x = Random.Range (xRangeMin, xRangeMax);
 			y = Random.Range (yRangeMin, yRangeMax);
-			z = 30;
+			z = 0;
 			pos = new Vector3 (x, y, z);
 			gO.transform.position = pos;
 		}

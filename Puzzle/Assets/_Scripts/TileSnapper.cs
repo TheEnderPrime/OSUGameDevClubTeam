@@ -5,6 +5,8 @@ using UnityEngine;
 public class TileSnapper : MonoBehaviour {
 
 	public bool mouseLeftDown;
+	public bool isCorrect;
+	public int ID;
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -13,7 +15,14 @@ public class TileSnapper : MonoBehaviour {
 		//Check if the object has the puzzle piece tag
 		if (tile.CompareTag ("PuzzlePiece") && !mouseLeftDown) {
 			tile.transform.position = GetComponent<Transform>().position;
-			//TODO: On snap, update game state with new tile position in array
+			if (tile.name == ID.ToString()) {
+				isCorrect = true;
+			} else {
+				isCorrect = false;
+			}
 		}
+	}
+
+	void OnTriggerExit2D(Collider2D col){
 	}
 }

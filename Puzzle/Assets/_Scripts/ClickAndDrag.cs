@@ -10,13 +10,13 @@ public class ClickAndDrag : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -10f));
+		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0f));
 	}
 	
 	void OnMouseDrag ()
 	{
 		Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-		Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
+		Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset/5;
 		transform.position = curPosition;
 	}
 }
