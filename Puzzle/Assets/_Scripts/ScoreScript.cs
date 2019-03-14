@@ -5,18 +5,15 @@ using UnityEngine.UI;
 
 public class ScoreScript : MonoBehaviour {
 
-	//public GameObject score_card;
-	//Add UI element
 	private float score;
 	public Text score_txt;
+	public RectTransform mrect;
 
 
 	// Use this for initialization
 	void Start () {
-		//score_card = GameObject.FindGameObjectWithTag ("Score Card");
 
-
-		score = 1000;
+		score = 5000;
 		SetScore ();
 	}
 	
@@ -27,6 +24,9 @@ public class ScoreScript : MonoBehaviour {
 	}
 
 	void SetScore(){
+		score_txt.fontSize = 40;
+		score = (int)score;
 		score_txt.text = "Score: " + score.ToString ();
+
 	}
 }
